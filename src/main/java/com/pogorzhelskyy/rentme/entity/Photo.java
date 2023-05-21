@@ -21,6 +21,11 @@ public class Photo {
         this.link = link;
     }
 
+    public Photo(String link, Housing housing) {
+        this.link = link;
+        this.housing = housing;
+    }
+
     public Photo() {
     }
 }

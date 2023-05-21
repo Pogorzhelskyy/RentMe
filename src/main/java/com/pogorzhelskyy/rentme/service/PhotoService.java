@@ -16,10 +16,11 @@ public class PhotoService {
         this.photoRepo = photoRepo;
     }
 
+    public Photo getById(Long id) {return photoRepo.getById(id); }
     public List<Photo> getByHousing (Housing housing){
         return photoRepo.findByHousing(housing);
     }
     public void save (Photo photo){ photoRepo.save(photo);}
 
-    public void delete (Photo photo) {photoRepo.delete(photo);}
+    public void deleteById (Long id) {photoRepo.deleteById(id);}
 }

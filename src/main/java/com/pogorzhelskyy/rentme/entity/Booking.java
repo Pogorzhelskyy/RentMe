@@ -1,5 +1,6 @@
 package com.pogorzhelskyy.rentme.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,8 +23,15 @@ public class Booking {
     private Date until;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private User customer;
+    private User consumer;
 
     public Booking() {
+    }
+
+    public Booking(Housing housing, Date from, Date until, User consumer) {
+        this.housing = housing;
+        this.from = from;
+        this.until = until;
+        this.consumer = consumer;
     }
 }

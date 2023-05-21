@@ -29,8 +29,8 @@ public class HousingService {
     public void save (Housing housing){
     housingRepo.save(housing);
     }
-    public void delete (Housing housing){
-    housingRepo.delete(housing);}
+    public void deleteById (Long id){
+    housingRepo.deleteById(id);}
     public List<Housing> findAvailable(String city, Date from, Date until){
     List <Housing> housingsAvailable = new ArrayList<>();
     List <Housing> housingsByCity = getByCity(city);

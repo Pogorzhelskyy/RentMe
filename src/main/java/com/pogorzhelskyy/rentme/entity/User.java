@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private String email;
 
     private String phone;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "consumer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set <Booking> bookings;
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Review> reviews;
@@ -68,5 +68,9 @@ public class User implements UserDetails {
 
     public boolean isAdmin() {
         return getRoles().contains(Role.ADMIN);
+    }
+
+    public boolean isUser() {
+        return getRoles().contains(Role.USER);
     }
 }

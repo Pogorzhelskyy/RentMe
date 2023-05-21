@@ -1,27 +1,26 @@
 package com.pogorzhelskyy.rentme.service;
 
-import com.pogorzhelskyy.rentme.entity.Housing;
-import com.pogorzhelskyy.rentme.entity.Photo;
-import com.pogorzhelskyy.rentme.entity.Role;
-import com.pogorzhelskyy.rentme.entity.User;
+import com.pogorzhelskyy.rentme.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
 public class DevInitializer {
     private final UserService userService;
     private final HousingService housingService;
+    private final PhotoService photoService;
+    private final BookingService bookingService;
 @Autowired
-    public DevInitializer(UserService userService, HousingService housingService) {
+    public DevInitializer(UserService userService, HousingService housingService, PhotoService photoService, BookingService bookingService) {
         this.userService = userService;
         this.housingService = housingService;
-    }
+        this.photoService = photoService;
+    this.bookingService = bookingService;
+}
 
     @PostConstruct
     public void init()  {
@@ -51,11 +50,20 @@ public class DevInitializer {
         housing1.setRooms(1);
         housing1.setPrice(40);
         housing1.setSquare(65);
-        List<Photo> photos1 = new ArrayList<>();
+       /* List<Photo> photos1 = new ArrayList<>();
         photos1.add(new Photo("https://a0.muscache.com/im/pictures/6f88f977-b8ec-465b-aa0c-8b6ede936083.jpg"));
         photos1.add(new Photo("https://a0.muscache.com/im/pictures/7142c6b0-1e2d-41d6-a0c8-3e1f50d1ef55.jpg"));
         photos1.add(new Photo("https://a0.muscache.com/im/pictures/0fcebb1a-e1fc-4d1e-b780-c3954cf9f219.jpg"));
-        housing1.setPhotos(photos1);
+        housing1.setPhotos(photos1);*/
         housingService.save(housing1);
+        Photo photo = new Photo("https://a0.muscache.com/im/pictures/6f88f977-b8ec-465b-aa0c-8b6ede936083.jpg", housing1);
+        photoService.save(photo);
+        photo = new Photo("https://a0.muscache.com/im/pictures/7142c6b0-1e2d-41d6-a0c8-3e1f50d1ef55.jpg", housing1);
+        photoService.save(photo);
+        photo = new Photo("https://a0.muscache.com/im/pictures/0fcebb1a-e1fc-4d1e-b780-c3954cf9f219.jpg", housing1);
+        photoService.save(photo);
+       /* Booking booking = new Booking();
+        bookingService.save(booking);*/
+      //  housingService.deleteById(housing1.getId());
     }
 }

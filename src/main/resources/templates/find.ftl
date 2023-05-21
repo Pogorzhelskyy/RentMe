@@ -22,6 +22,7 @@
         <div class="col">
             <#if known>
                 <a  href="/logout" class="btn btn-primary btn-lg">Logout</a>
+                <a  href="/user/details" class="btn btn-primary btn-lg">User Details</a>
             <#else>
                 <a href="/login" class="btn btn-primary btn-lg">Login</a>
                 <a href="/registration" class="btn btn-primary btn-lg">New User</a>
@@ -47,11 +48,13 @@
                 <td>
                     <#if housing.getPhotos()?has_content>
                   <img src="${housing.getPhotos()?first.getLink()}" alt="Housing Photo" style="width: 100px;">
+                    <#else>
+                  <img src="https://caspianpolicy.com/no-image.png" alt="Housing Photo" style="width: 100px;">
                     </#if>
                 </td>
                 <td>${housing.getSquare()}</td>
                 <td>${housing.getRooms()}</td>
-                <td>${housing.getPrice()}</td>
+                <td><a href="/housingById?housingId=${housing.getId()}">${housing.getPrice()}</a></td>
             </tr>
         </#list>
         </tbody>
@@ -59,6 +62,7 @@
 </div>
 
 <a  href="/" class="btn btn-primary btn-lg">Back</a>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

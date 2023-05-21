@@ -26,7 +26,7 @@ public class Housing {
     private Set <Booking> bookings;
     @OneToMany(mappedBy = "housing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set <Review> reviews;
-    @OneToMany(mappedBy = "housing", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "housing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List <Photo> photos;
 
     public Housing() {

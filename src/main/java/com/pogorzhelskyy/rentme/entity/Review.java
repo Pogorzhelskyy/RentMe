@@ -1,5 +1,6 @@
 package com.pogorzhelskyy.rentme.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
