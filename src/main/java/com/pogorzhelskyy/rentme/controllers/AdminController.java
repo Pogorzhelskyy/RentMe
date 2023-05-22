@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
     private final HousingService housingService;
-    private final BookingService bookingService;
+  //  private final BookingService bookingService;
     private final PhotoService photoService;
 
     @Autowired
     public AdminController(HousingService housingService, BookingService bookingService, PhotoService photoService) {
         this.housingService = housingService;
-        this.bookingService = bookingService;
+   //     this.bookingService = bookingService;
         this.photoService = photoService;
     }
 

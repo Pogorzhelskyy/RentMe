@@ -107,9 +107,10 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <form method="post" action="/book" class="form-inline">
+                                <input type="hidden" name="housingId" value=${onehousing.getId()}>
                                 <input type="date" name="from" class="form-control" placeholder="Checkin date">
                                 <input type="date" name="until" class="form-control" placeholder="Checkout date">
-                                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                                <input type="hidden" name="_csrf" value="${_csrf.token}" >
                                 <button type="submit" class="btn btn-primary ml-2">Book</button>
                             </form>
                         </div>

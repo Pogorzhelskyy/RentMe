@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +40,13 @@ public class HousingController {
                                @RequestParam ("city") String city,
                                @RequestParam ("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
                                @RequestParam ("until")@DateTimeFormat(pattern = "yyyy-MM-dd")Date until){
-        List <Housing> availableHousings = housingService.findAvailable(city, from, until);
-        model.addAttribute("entities", availableHousings);
+        List <Housing> housingsAvailable = new ArrayList<>();
+        List <Housing> housingsByCity = housingService.getByCity(city);
+        DateFrame dateFrame = new DateFrame(from, until);
+        for (Housing h: housingsByCity) {
+            if (bookingService.isAvailable(h, dateFrame)) housingsAvailable.add(h);
+        }
+        model.addAttribute("entities", housingsAvailable);
     return "find";
     }
 
@@ -56,7 +62,7 @@ public class HousingController {
                               @AuthenticationPrincipal User user,
                               @RequestParam ("housingId") Long housingId,
                               @RequestParam ("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
-                              @RequestParam ("until")@DateTimeFormat(pattern = "yyyy-MM-dd")Date until){
+                              @RequestParam ("until")@DateTimeFormat(pattern = "yyyy-MM-dd") Date until){
         DateFrame dateFrame = new DateFrame(from,until);
     if(bookingService.isAvailable(housingService.getById(housingId), dateFrame)){
         Booking booking = new Booking(housingService.getById(housingId),from, until,user);

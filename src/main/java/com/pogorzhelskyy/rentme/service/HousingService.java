@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public class HousingService {
     private final HousingRepo housingRepo;
-    private final BookingService bookingService;
+  //  private final BookingService bookingService;
 @Autowired
-    public HousingService(HousingRepo housingRepo, BookingService bookingService) {
+    public HousingService(HousingRepo housingRepo) {
         this.housingRepo = housingRepo;
-    this.bookingService = bookingService;
+ //   this.bookingService = bookingService;
 }
     public List <Housing> getAll(){
     return housingRepo.findAll();
@@ -31,7 +31,7 @@ public class HousingService {
     }
     public void deleteById (Long id){
     housingRepo.deleteById(id);}
-    public List<Housing> findAvailable(String city, Date from, Date until){
+ /*   public List<Housing> findAvailable(String city, Date from, Date until){
     List <Housing> housingsAvailable = new ArrayList<>();
     List <Housing> housingsByCity = getByCity(city);
     DateFrame dateFrame = new DateFrame(from, until);
@@ -39,6 +39,6 @@ public class HousingService {
             if (bookingService.isAvailable(h, dateFrame)) housingsAvailable.add(h);
         }
     return housingsAvailable;
-    }
+    }*/
 
 }
