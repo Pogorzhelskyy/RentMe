@@ -1,12 +1,13 @@
 package com.pogorzhelskyy.rentme.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class DateFrame {
-    public Date from;
-    public Date until;
+    public LocalDate from;
+    public LocalDate until;
 
-    public DateFrame(Date from, Date until) {
+    public DateFrame(LocalDate from, LocalDate until) {
         this.from = from;
         this.until = until;
     }

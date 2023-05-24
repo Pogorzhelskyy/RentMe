@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -29,8 +30,7 @@ public class HousingController {
         this.bookingService = bookingService;
 }
     @GetMapping("/")
-    public String start (Model model,
-                        @AuthenticationPrincipal User user) {
+    public String start () {
     return "index";
     }
 
@@ -38,8 +38,8 @@ public class HousingController {
     public String findHousing (Model model,
                                @AuthenticationPrincipal User user,
                                @RequestParam ("city") String city,
-                               @RequestParam ("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
-                               @RequestParam ("until")@DateTimeFormat(pattern = "yyyy-MM-dd")Date until){
+                               @RequestParam ("from") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+                               @RequestParam ("until")@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate until){
         List <Housing> housingsAvailable = new ArrayList<>();
         List <Housing> housingsByCity = housingService.getByCity(city);
         DateFrame dateFrame = new DateFrame(from, until);
@@ -53,23 +53,30 @@ public class HousingController {
     @GetMapping("/housingById")
     public String getHousingById (Model model,
                                   @AuthenticationPrincipal User user,
-                                  @RequestParam("housingId") Long id){
-        model.addAttribute("onehousing", housingService.getById(id));
+                                  @RequestParam("housingId") Long housingId){
+        Housing housing =  housingService.getById(housingId);
+        List<Booking> actualBookings = housing.getBookings()
+                .stream()
+                .filter(booking -> booking.getCheckout().isAfter(LocalDate.now()))
+                .sorted(Comparator.comparing(Booking::getCheckout))
+                .toList();
+        model.addAttribute("onehousing", housing);
+        model.addAttribute("bookings", actualBookings);
     return "housingbyid";
     }
     @PostMapping("/book")
     public String bookHousing(Model model,
                               @AuthenticationPrincipal User user,
                               @RequestParam ("housingId") Long housingId,
-                              @RequestParam ("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
-                              @RequestParam ("until")@DateTimeFormat(pattern = "yyyy-MM-dd") Date until){
-        DateFrame dateFrame = new DateFrame(from,until);
+                              @RequestParam ("from") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkin,
+                              @RequestParam ("until")@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkout){
+        DateFrame dateFrame = new DateFrame(checkin, checkout);
     if(bookingService.isAvailable(housingService.getById(housingId), dateFrame)){
-        Booking booking = new Booking(housingService.getById(housingId),from, until,user);
+        Booking booking = new Booking(housingService.getById(housingId),checkin, checkout,user);
         bookingService.save(booking);
         model.addAttribute("bookingConfirmation", "Thank you. Your booking is confirmed.");
     }else model.addAttribute("bookingConfirmation", "Is not available. Please try another dates.");
         model.addAttribute("onehousing", housingService.getById(housingId));
-    return "housingbyid";
+    return  "redirect:/housingById?housingId="+housingId;
     }
 }

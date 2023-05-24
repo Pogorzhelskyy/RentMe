@@ -21,8 +21,8 @@
         </div>
         <div class="col">
             <#if known>
-                <a  href="/logout" class="btn btn-primary btn-lg">Logout</a>
-                <a  href="/user/details" class="btn btn-primary btn-lg">User Details</a>
+                <a href="/profile"> ${name} </a>
+                <a href="/logout" class="btn btn-primary btn-lg">Logout</a>
             <#else>
                 <a href="/login" class="btn btn-primary btn-lg">Login</a>
                 <a href="/registration" class="btn btn-primary btn-lg">New User</a>
@@ -54,7 +54,7 @@
                 </td>
                 <td>${housing.getSquare()}</td>
                 <td>${housing.getRooms()}</td>
-                <td><a href="/housingById?housingId=${housing.getId()}">${housing.getPrice()}</a></td>
+                <td><a href="/housingById?housingId=${housing.getId()}">${housing.getPrice()} EUR</a></td>
             </tr>
         </#list>
         </tbody>

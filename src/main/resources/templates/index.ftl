@@ -20,6 +20,7 @@
         </div>
         <div class="col">
             <#if known>
+                <a  href="/profile"> ${name} </a>
                 <a  href="/logout" class="btn btn-primary btn-lg">Logout</a>
             <#else>
                 <a href="/login" class="btn btn-primary btn-lg">Login</a>

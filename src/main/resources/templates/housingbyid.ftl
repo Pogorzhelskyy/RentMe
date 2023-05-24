@@ -20,13 +20,14 @@
         </div>
         <div class="col">
             <#if known>
-            <a  href="/logout" class="btn btn-primary btn-lg">Logout</a>
-            <#else>
-            <a href="/login" class="btn btn-primary btn-lg">Login</a>
-            <a href="/registration" class="btn btn-primary btn-lg">New User</a>
-        </#if>
+                <a  href="/profile"> ${name} </a>
+                <a  href="/logout" class="btn btn-primary btn-lg">Logout</a>
+                <#else>
+                <a href="/login" class="btn btn-primary btn-lg">Login</a>
+                <a href="/registration" class="btn btn-primary btn-lg">New User</a>
+            </#if>
+        </div>
     </div>
-</div>
 </div>
 <main class="main">Content</main>
 
@@ -53,6 +54,8 @@
                 </#list>
             </td>
             <td>
+                <a  href="/" class="btn btn-primary btn-lg">Home</a>
+                <br>
                 ${onehousing.getDescription()}<br>
                 <#if isAdmin>
                     <form method="post" action="/setDescription">
@@ -103,6 +106,20 @@
 
                     </tbody>
                 </table>
+                <#if known>
+                    <br>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Already booked dates
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <#list bookings as activebooking>
+                            <li><a class="dropdown-item" > ${activebooking} <#if isAdmin>  ${activebooking.getConsumer().getUsername()}</#if></a></li>
+                            </#list>
+                        </ul>
+                    </div>
+                    <br>
+                </#if>
                 <#if isUser>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -115,7 +132,10 @@
                             </form>
                         </div>
                     </div>
-
+                <form method="post" action="/addWish">
+                    <input type="hidden" name="housingId" value=${onehousing.getId()}>
+                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                    <button type="submit">Add to wishlist</button>
                 </#if>
                 <#if isAdmin>
                     <form method="post" action="/housingDel">

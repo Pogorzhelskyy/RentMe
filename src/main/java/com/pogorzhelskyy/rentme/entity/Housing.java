@@ -22,6 +22,7 @@ public class Housing {
     private String city;
     private String address;
     private int price;
+
     @OneToMany(mappedBy = "housing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set <Booking> bookings;
     @OneToMany(mappedBy = "housing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

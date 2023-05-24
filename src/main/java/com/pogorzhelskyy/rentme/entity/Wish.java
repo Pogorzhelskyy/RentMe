@@ -4,12 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
-public class Booking {
+public class Wish {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -17,27 +16,21 @@ public class Booking {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "housing_id")
     private Housing housing;
-    @Column(name = "checkin")
-    private LocalDate checkin;
-    @Column(name = "checkout")
-    private LocalDate checkout;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User consumer;
 
-    public Booking() {
+    public Wish(Housing housing, User consumer) {
+        this.housing = housing;
+        this.consumer = consumer;
     }
 
-    public Booking(Housing housing, LocalDate checkin, LocalDate checkout, User consumer) {
-        this.housing = housing;
-        this.checkin = checkin;
-        this.checkout = checkout;
-        this.consumer = consumer;
+    public Wish() {
     }
 
     @Override
     public String toString() {
-        return "Checkin - " + checkin +
-                ", Checkout - " + checkout;
+        return  housing.getAddress() +" - " + housing.getPrice() + GlobalVariables.currency;
     }
 }

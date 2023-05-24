@@ -27,7 +27,7 @@ public class DevInitializer {
         System.out.println("Initializing the system...");
     // default users
         User user = new User();
-        user.setUsername("user");
+        user.setUsername("tester");
         user.setPassword("111");
         user.setPhone("+38 050 222 22 22");
         user.setEmail("2222@gmail.com");
@@ -64,6 +64,5 @@ public class DevInitializer {
         photoService.save(photo);
        /* Booking booking = new Booking();
         bookingService.save(booking);*/
-      //  housingService.deleteById(housing1.getId());
     }
 }

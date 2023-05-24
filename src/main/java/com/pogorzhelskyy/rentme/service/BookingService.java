@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,17 +36,10 @@ public class BookingService {
         List<Booking> bookings = getByHousing(housing);
         if (bookings.isEmpty()) return true;
         for (Booking b : bookings) {
-            if ((dateFrame.from.after(b.getFrom()) && dateFrame.from.before(b.getUntil()))
-            ||(dateFrame.until.after(b.getFrom()) && dateFrame.until.before(b.getUntil()))) return false;
+            if ((dateFrame.from.isAfter(b.getCheckin()) && dateFrame.from.isBefore(b.getCheckout()))
+            ||(dateFrame.until.isAfter(b.getCheckin()) && dateFrame.until.isBefore(b.getCheckout()))) return false;
         }
         return true;
     }
 
-    public List<Booking> getActualBookingByHousing (Housing housing){
-        return getByHousing(housing)
-                .stream()
-                .filter(booking -> booking.getUntil().after(new Date()))
-                .sorted(Comparator.comparing(Booking::getUntil))
-                .toList();
-    }
 }
