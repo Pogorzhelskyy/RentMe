@@ -35,9 +35,8 @@
     <tbody>
         <tr>
             <td style="width: 350px;>
-                <#list onehousing.getPhotos() as photo>
-                    <img src="${photo.getLink()}" alt="Housing Photo" style="width: 300px;">
-                    ${photo.getLink()}
+                <#list photos as photo>
+                    <img src="${photo.getLink()}" alt="Housing Photo" width="300px">
                     <#if isAdmin>
                         <form method="post" action="/photoDel">
                             <input type="hidden" name="photoId" value=${photo.getId()}>
@@ -123,10 +122,10 @@
                 <#if isUser>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <form method="post" action="/book" class="form-inline">
+                            <form method="post" action="/book" class="form-inline"onsubmit="return validateDateForm()">
                                 <input type="hidden" name="housingId" value=${onehousing.getId()}>
-                                <input type="date" name="from" class="form-control" placeholder="Checkin date">
-                                <input type="date" name="until" class="form-control" placeholder="Checkout date">
+                                <input type="date" name="from" id="checkinDate" class="form-control" placeholder="Checkin date">
+                                <input type="date" name="until" id="checkoutDate" class="form-control" placeholder="Checkout date">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}" >
                                 <button type="submit" class="btn btn-primary ml-2">Book</button>
                             </form>
@@ -150,5 +149,21 @@
 </table>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+    function validateDateForm() {
+        var today = new Date().toISOString().split('T')[0];
+        var checkinDate = document.getElementById('checkinDate').value;
+        var checkoutDate = document.getElementById('checkoutDate').value;
+
+        if (checkinDate < today) {
+            alert("Checkin date should not be earlier than today");
+            return false;
+        }
+        if (checkoutDate <= checkinDate) {
+            alert("Checkout date should be after checkin date");
+            return false;
+        }
+    }
+</script>
 </body>
 </html>

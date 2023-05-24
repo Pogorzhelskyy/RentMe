@@ -22,16 +22,15 @@ E-mail <#if user.getEmail()?has_content>${user.getEmail()} </#if> <br>
     </#list>
 
 <h2> Wishlist</h2>
-<#if user.getWishList()?has_content>
-    <#list user.getWishList() as wish>
-        ${wish}
-<#--        <form method="post" action="/wishDel">-->
-<#--        <input type="hidden" name="wishId" value=${wish.getId()}>-->
-<#--        <input type="hidden" name="_csrf" value="${_csrf.token}" />-->
-<#--        <button type="submit">Delete</button>-->
-<#--    </form>-->
+    <#list wishlist as wish>
+        ${wish} <form method="post" action="/wishDel">
+    <input type="hidden" name="wishId" value=${wish.getId()}>
+    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+    <button type="submit">Delete</button>
+
+    </form>
     </#list>
-</#if>
+<#--</#if>-->
 <br>
 <a  href="/" class="btn btn-primary btn-lg">Home</a>
 

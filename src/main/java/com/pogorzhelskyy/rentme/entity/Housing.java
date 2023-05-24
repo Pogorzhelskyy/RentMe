@@ -29,6 +29,8 @@ public class Housing {
     private Set <Review> reviews;
     @OneToMany(mappedBy = "housing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List <Photo> photos;
+    @OneToMany(mappedBy = "housing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List <Wish> wishes;
 
     public Housing() {
     }

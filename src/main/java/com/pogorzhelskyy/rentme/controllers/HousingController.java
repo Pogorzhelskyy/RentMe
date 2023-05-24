@@ -62,6 +62,7 @@ public class HousingController {
                 .toList();
         model.addAttribute("onehousing", housing);
         model.addAttribute("bookings", actualBookings);
+        model.addAttribute("photos", housing.getPhotos());
     return "housingbyid";
     }
     @PostMapping("/book")

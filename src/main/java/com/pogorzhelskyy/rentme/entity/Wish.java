@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+
 public class Wish {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +18,7 @@ public class Wish {
     @JoinColumn(name = "housing_id")
     private Housing housing;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User consumer;
 
@@ -31,6 +32,6 @@ public class Wish {
 
     @Override
     public String toString() {
-        return  housing.getAddress() +" - " + housing.getPrice() + GlobalVariables.currency;
+        return  housing.getAddress() +" - " + housing.getPrice();
     }
 }

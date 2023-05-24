@@ -3,6 +3,7 @@ package com.pogorzhelskyy.rentme.service;
 import com.pogorzhelskyy.rentme.entity.Booking;
 import com.pogorzhelskyy.rentme.entity.DateFrame;
 import com.pogorzhelskyy.rentme.entity.Housing;
+import com.pogorzhelskyy.rentme.entity.User;
 import com.pogorzhelskyy.rentme.repo.BookingRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class BookingService {
    }catch (Exception e){
        return new ArrayList<>();
    }
+    }
+    public List<Booking> getByUser (User consumer){
+    return bookingRepo.findBookingsByConsumer(consumer);
     }
 
     public void save (Booking booking){

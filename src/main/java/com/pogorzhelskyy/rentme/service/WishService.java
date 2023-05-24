@@ -1,8 +1,11 @@
 package com.pogorzhelskyy.rentme.service;
 
+import com.pogorzhelskyy.rentme.entity.User;
 import com.pogorzhelskyy.rentme.entity.Wish;
 import com.pogorzhelskyy.rentme.repo.WishRepo;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class WishService {
@@ -16,5 +19,8 @@ public class WishService {
     }
     public void deleteById (Long id){
         wishRepo.deleteById(id);
+    }
+    public List<Wish> getByUser(User consumer){
+        return wishRepo.findWishesByConsumer(consumer);
     }
 }

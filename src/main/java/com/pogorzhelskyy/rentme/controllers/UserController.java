@@ -2,7 +2,10 @@ package com.pogorzhelskyy.rentme.controllers;
 
 import com.pogorzhelskyy.rentme.entity.Role;
 import com.pogorzhelskyy.rentme.entity.User;
+import com.pogorzhelskyy.rentme.service.BookingService;
 import com.pogorzhelskyy.rentme.service.UserService;
+import com.pogorzhelskyy.rentme.service.WishService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,10 +21,14 @@ import java.util.Collections;
 @Controller
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
+    private final WishService wishService;
+    private final BookingService bookingService;
+@Autowired
+    public UserController(UserService userService, WishService wishService, BookingService bookingService) {
         this.userService = userService;
-    }
+    this.wishService = wishService;
+    this.bookingService = bookingService;
+}
     @GetMapping("/registration")
     public String registration() {
         return "registration";
@@ -57,8 +64,9 @@ public class UserController {
     }
     @GetMapping("/profile")
     public String profile (Model model,
-                           @AuthenticationPrincipal User user){
-        model.addAttribute("bookings", user.getBookings());
+                           @AuthenticationPrincipal User consumer){
+        model.addAttribute("bookings", bookingService.getByUser(consumer));
+        model.addAttribute("wishlist", wishService.getByUser(consumer));
         return "profile";
     }
 }
