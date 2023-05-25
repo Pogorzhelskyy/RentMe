@@ -9,6 +9,7 @@
     <title>RentMe</title>
 </head>
 <body>
+<#import "parts/pager.ftl" as p>
 <#include "parts/security.ftl">
 <header class="header"> Header </header>
 <div class="container">
@@ -43,7 +44,9 @@
         </tr>
         </thead>
         <tbody>
-        <#list entities as housing>
+<#--        <@c.page>-->
+            <@p.pager url page />
+        <#list page.content as housing>
             <tr>
                 <td>
                     <#if housing.getPhotos()?has_content>
@@ -57,6 +60,8 @@
                 <td><a href="/housingById?housingId=${housing.getId()}">${housing.getPrice()} EUR</a></td>
             </tr>
         </#list>
+        <@p.pager url page />
+<#--        </@c.page>-->
         </tbody>
     </table>
 </div>

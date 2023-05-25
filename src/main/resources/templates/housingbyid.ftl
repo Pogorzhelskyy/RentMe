@@ -124,11 +124,26 @@
                         <div class="form-group col-md-6">
                             <form method="post" action="/book" class="form-inline"onsubmit="return validateDateForm()">
                                 <input type="hidden" name="housingId" value=${onehousing.getId()}>
-                                <input type="date" name="from" id="checkinDate" class="form-control" placeholder="Checkin date">
-                                <input type="date" name="until" id="checkoutDate" class="form-control" placeholder="Checkout date">
+                                <input type="date" name="checkin" id="checkinDate" class="form-control" placeholder="Checkin date">
+<#--                                <#if checkinError??>-->
+<#--                                    <div class="feedback">-->
+<#--                                        ${checkinError}-->
+<#--                                    </div>-->
+<#--                                </#if>-->
+                                <input type="date" name="checkout" id="checkoutDate" class="form-control" placeholder="Checkout date">
+<#--                                <#if checkoutError??>-->
+<#--                                    <div class="feedback">-->
+<#--                                        ${checkoutError}-->
+<#--                                    </div>-->
+<#--                                </#if>-->
                                 <input type="hidden" name="_csrf" value="${_csrf.token}" >
                                 <button type="submit" class="btn btn-primary ml-2">Book</button>
                             </form>
+                            <#if bookingConfirmation??>
+                                <div class="feedback">
+                                    ${bookingConfirmation}
+                                </div>
+                            </#if>
                         </div>
                     </div>
                 <form method="post" action="/addWish">

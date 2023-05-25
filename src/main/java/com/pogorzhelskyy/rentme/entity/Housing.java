@@ -2,7 +2,10 @@ package com.pogorzhelskyy.rentme.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
 
@@ -16,10 +19,13 @@ public class Housing {
     private Long id;
     private Type type;
     @Column(columnDefinition = "TEXT", length = 2000)
+    @Length(max = 2000, message = "Description is too long (more than 2000)")
     private String description;
     private int square;
     private int rooms;
+    @NotBlank(message = "Please fill the City")
     private String city;
+    @NotBlank(message = "Please fill the address")
     private String address;
     private int price;
 
