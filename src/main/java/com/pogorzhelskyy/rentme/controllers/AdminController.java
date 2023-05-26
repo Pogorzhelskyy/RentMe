@@ -2,7 +2,6 @@ package com.pogorzhelskyy.rentme.controllers;
 
 import com.pogorzhelskyy.rentme.entity.Housing;
 import com.pogorzhelskyy.rentme.entity.Photo;
-import com.pogorzhelskyy.rentme.service.BookingService;
 import com.pogorzhelskyy.rentme.service.HousingService;
 import com.pogorzhelskyy.rentme.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,29 +16,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
     private final HousingService housingService;
-  //  private final BookingService bookingService;
     private final PhotoService photoService;
 
     @Autowired
-    public AdminController(HousingService housingService, BookingService bookingService, PhotoService photoService) {
+    public AdminController(HousingService housingService, PhotoService photoService) {
         this.housingService = housingService;
-   //     this.bookingService = bookingService;
         this.photoService = photoService;
     }
 
     @GetMapping("/addHousing")
-    public String addHousin() {
+    public String addHousing() {
         return "addHousing";
     }
 
     @PostMapping("/addHousing")
     public String addHousingPost(Model model,
-                                 @RequestParam String city,
-                                 @RequestParam String address,
-                                 @RequestParam int rooms,
-                                 @RequestParam int square,
-                                 @RequestParam int price,
-                                 @RequestParam String description) {
+                                 @RequestParam ("city") String city,
+                                 @RequestParam ("address")String address,
+                                 @RequestParam ("rooms")int rooms,
+                                 @RequestParam ("square")int square,
+                                 @RequestParam ("price")int price,
+                                 @RequestParam ("description")String description) {
         Housing housing = new Housing();
         housing.setCity(city);
         housing.setAddress(address);
@@ -57,7 +54,8 @@ public class AdminController {
         Photo photo = new Photo();
         photo.setLink(photoLink);
         photo.setHousing(housingService.getById(housingId));
-        return "redirect:/oneHousingDetails?housingId="+housingId;
+        photoService.save(photo);
+        return "redirect:/housingById?housingId="+housingId;
     }
     @PostMapping("/housingDel")
     public String deleteHousing(@RequestParam ("housingId") Long id){

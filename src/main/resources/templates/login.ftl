@@ -19,6 +19,7 @@
     <button type="submit">Login</button>
   </div>
 </form>
-
+<br>
+<a  href="/" class="btn btn-primary btn-lg">Home</a>
 </body>
 </html>

@@ -23,9 +23,7 @@ public class Housing {
     private String description;
     private int square;
     private int rooms;
-    @NotBlank(message = "Please fill the City")
     private String city;
-    @NotBlank(message = "Please fill the address")
     private String address;
     private int price;
 

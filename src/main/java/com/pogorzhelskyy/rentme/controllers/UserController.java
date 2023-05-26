@@ -26,12 +26,14 @@ public class UserController {
     private final UserService userService;
     private final WishService wishService;
     private final BookingService bookingService;
-@Autowired
+
+    @Autowired
     public UserController(UserService userService, WishService wishService, BookingService bookingService) {
         this.userService = userService;
-    this.wishService = wishService;
-    this.bookingService = bookingService;
-}
+        this.wishService = wishService;
+        this.bookingService = bookingService;
+    }
+
     @GetMapping("/registration")
     public String registration() {
         return "registration";
@@ -42,33 +44,30 @@ public class UserController {
         return "login";
     }
 
-/*    @PostMapping("/registration")
-    public String registrationPost(Model model,
-                                    BindingResult bindingResult,
-                                    @Valid User user
-                                   @RequestParam String username,
-                                   @RequestParam String password,
-                                   @RequestParam String email,
-                                   @RequestParam String phone) {
-        Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+    @PostMapping("/registration")
+    public String registrationPost(Model model, @Valid User user,
+                                   BindingResult bindingResult,
+                                   @RequestParam("passwordConfirmation") String passwordConfirmation) {
 
         if (bindingResult.hasErrors()) {
-            model.mergeAttributes(errors);
+            model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
             return "registration";
         }
-        if (!userService.addUser(user)) {
-            model.addAttribute("usernameError", "User exists!");
+        if (!user.getPassword().equals(passwordConfirmation)) {
+            model.addAttribute("errorPasswordConfirmation", "Passwords don't match");
             return "registration";
         }
-        final User user = new User();
-        user.setPassword(password);
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPhone(phone);
+        if (userService.getUserByEmail(user.getEmail()).isPresent()) {
+            model.addAttribute("errorEmail", "Email is already exists");
+            return "registration";
+        }
         user.setRoles(Collections.singleton(Role.USER));
-        userService.addUser(user);
+        if (!userService.addUser(user)) {
+            model.addAttribute("errorUsername", "User exists!");
+            return "registration";
+        }
         return "redirect:/login";
-    }*/
+    }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
@@ -78,9 +77,10 @@ public class UserController {
         }
         return "redirect:/";
     }
+
     @GetMapping("/profile")
-    public String profile (Model model,
-                           @AuthenticationPrincipal User consumer){
+    public String profile(Model model,
+                          @AuthenticationPrincipal User consumer) {
         model.addAttribute("bookings", bookingService.getByUser(consumer));
         model.addAttribute("wishlist", wishService.getByUser(consumer));
         return "profile";

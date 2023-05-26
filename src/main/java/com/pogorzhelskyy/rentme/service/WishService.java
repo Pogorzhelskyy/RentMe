@@ -14,8 +14,11 @@ public class WishService {
     public WishService(WishRepo wishRepo) {
         this.wishRepo = wishRepo;
     }
-    public void save (Wish wish){
+    public boolean save (Wish wish){
+        Wish wishFromDb = wishRepo.findByConsumerAndHousing(wish.getConsumer(),wish.getHousing());
+        if (wishFromDb != null) {return false;}
         wishRepo.save(wish);
+        return true;
     }
     public void deleteById (Long id){
         wishRepo.deleteById(id);

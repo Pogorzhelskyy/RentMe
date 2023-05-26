@@ -32,6 +32,6 @@ public class Wish {
 
     @Override
     public String toString() {
-        return  housing.getAddress() +" - " + housing.getPrice() + GlobalVariables.currency;
+        return  housing.getAddress() +" - " + housing.getPrice() + " EUR";
     }
 }

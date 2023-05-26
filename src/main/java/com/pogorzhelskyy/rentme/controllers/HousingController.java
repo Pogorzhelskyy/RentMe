@@ -1,7 +1,6 @@
 package com.pogorzhelskyy.rentme.controllers;
 
 import com.pogorzhelskyy.rentme.entity.Booking;
-import com.pogorzhelskyy.rentme.entity.DateFrame;
 import com.pogorzhelskyy.rentme.entity.Housing;
 import com.pogorzhelskyy.rentme.entity.User;
 import com.pogorzhelskyy.rentme.service.BookingService;
@@ -15,17 +14,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
-import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -47,18 +41,15 @@ public class HousingController {
 
     @GetMapping("/find")
     public String findHousing (Model model,
-                               @AuthenticationPrincipal User user,
                                @RequestParam ("city") String city,
                                @RequestParam ("from") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkin,
                                @RequestParam ("until") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkout,
                                @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable){
-       /* List <Housing> housingsAvailable = new ArrayList<>();
-        List <Housing> housingsByCity = housingService.getByCity(city);
-        DateFrame dateFrame = new DateFrame(from, until);
-        for (Housing h: housingsByCity) {
-            if (bookingService.isAvailable(h, dateFrame)) housingsAvailable.add(h);
+        Map<String, String> errors = housingService.datesValidation(checkin,checkout);
+        if(!errors.isEmpty()){
+            model.mergeAttributes(errors);
+            return "index";
         }
-        model.addAttribute("entities", housingsAvailable);*/
         Page<Housing> page = housingService.getAvailableByCity(city, checkin, checkout, pageable);
         model.addAttribute("page", page);
         model.addAttribute("url", "/find?city="+city+"&from="+checkin+"&until="+checkout);
@@ -82,25 +73,21 @@ public class HousingController {
     }
     @PostMapping("/book")
     public String bookHousing(@AuthenticationPrincipal User user,
-                              @RequestParam ("housingId") Long housingId,
                               Model model,
-                              @RequestParam ("checkin") @DateTimeFormat(pattern = "yyyy-MM-dd")  @Valid LocalDate checkin,
-                              @RequestParam ("checkout") @DateTimeFormat(pattern = "yyyy-MM-dd") @Valid LocalDate checkout,
-                              BindingResult bindingResult){
-
-   Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-    if(bindingResult.hasErrors()){
-        if(!checkout.isAfter(checkin)) errors.put("checkoutError","Checkout must be after checkin");
+                              @RequestParam ("housingId") Long housingId,
+                              @RequestParam ("checkin") @DateTimeFormat(pattern = "yyyy-MM-dd")  LocalDate checkin,
+                              @RequestParam ("checkout") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkout
+                              ){
+    Map<String, String> errors = housingService.datesValidation(checkin,checkout);
+    if(!errors.isEmpty()){
         model.mergeAttributes(errors);
         return "housingById";
     }
-
-    DateFrame dateFrame = new DateFrame(checkin, checkout);
-    if(bookingService.isAvailable(housingService.getById(housingId), dateFrame)){
+    if(housingService.isAvailable(housingService.getById(housingId), checkin, checkout)){
         Booking booking = new Booking(housingService.getById(housingId),checkin, checkout,user);
         bookingService.save(booking);
-        model.addAttribute("bookingConfirmation", "Thank you. Your booking is confirmed.");
-    }else model.addAttribute("bookingConfirmation", "Is not available. Please try another dates.");
+        model.addAttribute("confirmationBooking", "Thank you. Your booking is confirmed.");
+    }else model.addAttribute("errorBooking", "Is not available. Please try another dates.");
 
     model.addAttribute("onehousing", housingService.getById(housingId));
     return  "redirect:/housingById?housingId="+housingId;

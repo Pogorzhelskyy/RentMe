@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -34,6 +35,9 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
+    public Optional<User> getUserByEmail(final String email) {
+        return userRepo.findAllByEmail(email);
+    }
 
     public boolean addUser(User user) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
@@ -42,7 +46,6 @@ public class UserService implements UserDetailsService {
             return false;
         }
 
-        //user.setRoles(Collections.singleton(Role.USER));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepo.save(user);

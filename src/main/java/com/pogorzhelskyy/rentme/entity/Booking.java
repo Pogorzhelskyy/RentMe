@@ -4,9 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Entity
@@ -20,17 +17,20 @@ public class Booking {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "housing_id")
     private Housing housing;
-    @NotBlank(message = "Checkin date is required")
- //   @FutureOrPresent(message = "Checkin date should be today or a future date")
+
     private LocalDate checkin;
-  @NotBlank(message = "Checkout date is required")
-//    @Future(message = "Checkin date should be a future date")
+
     private LocalDate checkout;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User consumer;
 
     public Booking() {
+    }
+
+    public Booking(LocalDate checkin, LocalDate checkout) {
+        this.checkin = checkin;
+        this.checkout = checkout;
     }
 
     public Booking(Housing housing, LocalDate checkin, LocalDate checkout, User consumer) {

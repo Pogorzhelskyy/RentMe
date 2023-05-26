@@ -7,6 +7,7 @@ import com.pogorzhelskyy.rentme.service.WishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,9 +21,13 @@ public class WishListController {
         this.housingService = housingService;
     }
     @PostMapping("/addWish")
-    public String addWish (@AuthenticationPrincipal User user,
+    public String addWish (Model model,
+                           @AuthenticationPrincipal User user,
                            @RequestParam("housingId") Long housingId){
-        wishService.save(new Wish(housingService.getById(housingId), user));
+        if (!wishService.save(new Wish(housingService.getById(housingId), user))) {
+            model.addAttribute("errorWish", "Already added to wishlist!");
+            return "redirect:/housingById?housingId="+housingId;
+        };
         return "redirect:/housingById?housingId="+housingId;
     }
     @PostMapping("/wishDel")
