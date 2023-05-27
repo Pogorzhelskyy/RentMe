@@ -30,10 +30,10 @@
 </div>
 </header>
 <main class="main">
-<table class="table">
-    <tbody>
+<table class="table" >
+
         <tr>
-            <td style="width: 350px;>
+            <td class="first-column"  width="350px">
                 <#list photos as photo>
                     <img src="${photo.getLink()}" alt="Housing Photo" width="300px">
                     <#if isAdmin>
@@ -44,16 +44,9 @@
                         </form>
                     </#if>
                 </#list>
-            <#if isAdmin>
-            <form method="post" action="/addPhoto">
-                <input type="hidden" name="housingId" value=${onehousing.getId()}>
-                <input type="url"  name="photoLink" required>
-                <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                <button type="submit">Add new photo</button>
-            </form>
-            </#if>
+
             </td>
-            <td>
+            <td class="second-column"  width="1000px">
                 <a  href="/" class="btn btn-primary btn-lg">Home</a>
                 <br>
                 ${onehousing.getDescription()}<br>
@@ -175,8 +168,15 @@
             </td>
         </tr>
 
-    </tbody>
 </table>
+    <#if isAdmin>
+        <form method="post" action="/addPhoto">
+            <input type="hidden" name="housingId" value=${onehousing.getId()}>
+            <input type="url"  name="photoLink" required>
+            <input type="hidden" name="_csrf" value="${_csrf.token}" />
+            <button type="submit">Add new photo</button>
+        </form>
+    </#if>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
