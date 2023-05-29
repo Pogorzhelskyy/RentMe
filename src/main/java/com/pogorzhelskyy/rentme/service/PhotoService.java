@@ -11,16 +11,25 @@ import java.util.List;
 @Service
 public class PhotoService {
     private final PhotoRepo photoRepo;
-@Autowired
+
+    @Autowired
     public PhotoService(PhotoRepo photoRepo) {
         this.photoRepo = photoRepo;
     }
 
-    public Photo getById(Long id) {return photoRepo.getById(id); }
-    public List<Photo> getByHousing (Housing housing){
+    public Photo getById(Long id) {
+        return photoRepo.getById(id);
+    }
+
+    public List<Photo> getByHousing(Housing housing) {
         return photoRepo.findByHousing(housing);
     }
-    public void save (Photo photo){ photoRepo.save(photo);}
 
-    public void deleteById (Long id) {photoRepo.deleteById(id);}
+    public void save(Photo photo) {
+        photoRepo.save(photo);
+    }
+
+    public void deleteById(Long id) {
+        photoRepo.deleteById(id);
+    }
 }

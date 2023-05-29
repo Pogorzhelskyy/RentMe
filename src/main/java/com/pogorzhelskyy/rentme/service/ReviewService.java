@@ -11,16 +11,21 @@ import java.util.List;
 @Service
 public class ReviewService {
     private final ReviewRepo reviewRepo;
-@Autowired
+
+    @Autowired
     public ReviewService(ReviewRepo reviewRepo) {
         this.reviewRepo = reviewRepo;
     }
 
-    public List<Review> getByHousing (Housing housing){
+    public List<Review> getByHousing(Housing housing) {
         return reviewRepo.findByHousing(housing);
     }
 
-    public void save (Review review){reviewRepo.save(review);}
+    public void save(Review review) {
+        reviewRepo.save(review);
+    }
 
-    public void delete (Review review){reviewRepo.delete(review);}
+    public void delete(Review review) {
+        reviewRepo.delete(review);
+    }
 }

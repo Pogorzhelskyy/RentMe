@@ -13,26 +13,22 @@ import java.util.List;
 @Service
 public class BookingService {
     private final BookingRepo bookingRepo;
-@Autowired
+
+    @Autowired
     public BookingService(BookingRepo bookingRepo) {
         this.bookingRepo = bookingRepo;
+    }
 
-}
-    public List<Booking> getByHousing (Housing housing){
-    try {
-       return bookingRepo.findByHousing(housing);
-   }catch (Exception e){
-       return new ArrayList<>();
-   }
+    public List<Booking> getByUser(User consumer) {
+        return bookingRepo.findBookingsByConsumer(consumer);
     }
-    public List<Booking> getByUser (User consumer){
-    return bookingRepo.findBookingsByConsumer(consumer);
+
+    public void save(Booking booking) {
+        bookingRepo.save(booking);
     }
-    public void save (Booking booking){
-    bookingRepo.save(booking);
-    }
-    public void delete (Booking booking){
-    bookingRepo.delete(booking);
+
+    public void delete(Booking booking) {
+        bookingRepo.delete(booking);
     }
 
 }

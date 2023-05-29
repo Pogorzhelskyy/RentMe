@@ -14,16 +14,21 @@ public class WishService {
     public WishService(WishRepo wishRepo) {
         this.wishRepo = wishRepo;
     }
-    public boolean save (Wish wish){
-        Wish wishFromDb = wishRepo.findByConsumerAndHousing(wish.getConsumer(),wish.getHousing());
-        if (wishFromDb != null) {return false;}
+
+    public boolean save(Wish wish) {
+        Wish wishFromDb = wishRepo.findByConsumerAndHousing(wish.getConsumer(), wish.getHousing());
+        if (wishFromDb != null) {
+            return false;
+        }
         wishRepo.save(wish);
         return true;
     }
-    public void deleteById (Long id){
+
+    public void deleteById(Long id) {
         wishRepo.deleteById(id);
     }
-    public List<Wish> getByUser(User consumer){
+
+    public List<Wish> getByUser(User consumer) {
         return wishRepo.findWishesByConsumer(consumer);
     }
 }

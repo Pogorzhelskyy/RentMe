@@ -35,6 +35,7 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
+
     public Optional<User> getUserByEmail(final String email) {
         return userRepo.findAllByEmail(email);
     }
