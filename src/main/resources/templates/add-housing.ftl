@@ -33,7 +33,7 @@
     <h3>Adding new housing </h3>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <form method="post" action="/addHousing" class="form-inline" >
+            <form method="post" action="/add-housing" class="form-inline" >
                 <input type="text" name="city" class="form-control" placeholder="City" required>
                 <input type="text" name="address" class="form-control" placeholder="Address" required>
                 <input type="number" name="rooms" class="form-control" placeholder="Quantity of rooms" required>

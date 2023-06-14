@@ -23,6 +23,7 @@ public class Housing {
     private String description;
     private int square;
     private int rooms;
+    private int maxPersons;
     private String city;
     private String address;
     private int price;

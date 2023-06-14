@@ -26,9 +26,9 @@ public class WishListController {
                            @RequestParam("housingId") Long housingId){
         if (!wishService.save(new Wish(housingService.getById(housingId), user))) {
             model.addAttribute("errorWish", "Already added to wishlist!");
-            return "redirect:/housingById?housingId="+housingId;
+            return "redirect:/housing-by-id?housingId=%d".formatted(housingId);
         };
-        return "redirect:/housingById?housingId="+housingId;
+        return "redirect:/housing-by-id?housingId=%d".formatted(housingId);
     }
     @PostMapping("/wishDel")
     public String delWish (@RequestParam ("wishId") Long wishId){

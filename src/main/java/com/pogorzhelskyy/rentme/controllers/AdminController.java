@@ -24,12 +24,12 @@ public class AdminController {
         this.photoService = photoService;
     }
 
-    @GetMapping("/addHousing")
+    @GetMapping("/add-housing")
     public String addHousing() {
-        return "addHousing";
+        return "add-housing";
     }
 
-    @PostMapping("/addHousing")
+    @PostMapping("/add-housing")
     public String addHousingPost(Model model,
                                  @RequestParam ("city") String city,
                                  @RequestParam ("address")String address,
@@ -45,9 +45,9 @@ public class AdminController {
         housing.setPrice(price);
         housing.setDescription(description);
         housingService.save(housing);
-        return "redirect:/addHousing";
+        return "redirect:/add-housing";
     }
-    @PostMapping("/addPhoto")
+    @PostMapping("/add-Photo")
     public String addPhotoPost(Model model,
                            @RequestParam ("photoLink") String photoLink,
                            @RequestParam ("housingId") Long housingId){
@@ -55,35 +55,35 @@ public class AdminController {
         photo.setLink(photoLink);
         photo.setHousing(housingService.getById(housingId));
         photoService.save(photo);
-        return "redirect:/housingById?housingId="+housingId;
+        return "redirect:/housing-by-id?housingId="+housingId;
     }
-    @PostMapping("/housingDel")
+    @PostMapping("/housing-del")
     public String deleteHousing(@RequestParam ("housingId") Long id){
         housingService.deleteById(id);
         return "redirect:/";
     }
 
-    @PostMapping("/photoDel")
+    @PostMapping("/photo-del")
     public String deletePhoto(@RequestParam ("photoId") Long id){
         Long housingId = photoService.getById(id).getHousing().getId();
         photoService.deleteById(id);
-        return "redirect:/housingById?housingId="+housingId;
+        return "redirect:/housing-by-id?housingId="+housingId;
     }
 
-    @PostMapping("/setPrice")
+    @PostMapping("/set-price")
     public  String setPrice(@RequestParam("housingId") Long housingId,
                             @RequestParam("price") int price){
         Housing housing = housingService.getById(housingId);
         housing.setPrice(price);
         housingService.save(housing);
-        return "redirect:/housingById?housingId="+housingId;
+        return "redirect:/housing-by-id?housingId="+housingId;
     }
-    @PostMapping("/setDescription")
+    @PostMapping("/set-description")
     public String setDescription(@RequestParam("housingId") Long housingId,
                                  @RequestParam("description") String description){
         Housing housing = housingService.getById(housingId);
         housing.setDescription(description);
         housingService.save(housing);
-        return "redirect:/housingById?housingId="+housingId;
+        return "redirect:/housing-by-id?housingId="+housingId;
     }
 }

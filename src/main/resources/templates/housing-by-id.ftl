@@ -37,7 +37,7 @@
                 <#list photos as photo>
                     <img src="${photo.getLink()}" alt="Housing Photo" width="300px">
                     <#if isAdmin>
-                        <form method="post" action="/photoDel">
+                        <form method="post" action="/photo-del">
                             <input type="hidden" name="photoId" value=${photo.getId()}>
                             <input type="hidden" name="_csrf" value="${_csrf.token}" />
                             <button type="submit">Delete</button>
@@ -51,7 +51,7 @@
                 <br>
                 ${onehousing.getDescription()}<br>
                 <#if isAdmin>
-                    <form method="post" action="/setDescription">
+                    <form method="post" action="/set-description">
                         <input type="hidden" name="housingId" value=${onehousing.getId()}>
                         <input type="text"  name="description" required>
                         <input type="hidden" name="_csrf" value="${_csrf.token}" />
@@ -66,6 +66,9 @@
                     <thead>
                     <tr>
                         <th>
+                            Max persons
+                        </th>
+                        <th>
                             Rooms
                         </th>
                         <th>
@@ -79,6 +82,9 @@
                     <tbody>
                     <tr>
                         <td>
+                            ${onehousing.getMaxPersons()}
+                        </td>
+                        <td>
                             ${onehousing.getRooms()}
                         </td>
                         <td>
@@ -87,7 +93,7 @@
                         <td>
                             ${onehousing.getPrice()}
                             <#if isAdmin>
-                                <form method="post" action="/setPrice">
+                                <form method="post" action="/set-price">
                                     <input type="hidden" name="housingId" value=${onehousing.getId()}>
                                     <input type="number"  name="price" required>
                                     <input type="hidden" name="_csrf" value="${_csrf.token}" />
@@ -156,7 +162,7 @@
                     </#if>
                 </#if>
                 <#if isAdmin>
-                    <form method="post" action="/housingDel">
+                    <form method="post" action="/housing-del">
                         <input type="hidden" name="housingId" value=${onehousing.getId()}>
                         <input type="hidden" name="_csrf" value="${_csrf.token}" />
                         <button type="submit">Delete</button>
@@ -170,7 +176,7 @@
 
 </table>
     <#if isAdmin>
-        <form method="post" action="/addPhoto">
+        <form method="post" action="/add-photo">
             <input type="hidden" name="housingId" value=${onehousing.getId()}>
             <input type="url"  name="photoLink" required>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />

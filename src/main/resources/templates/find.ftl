@@ -38,6 +38,7 @@
         <thead>
         <tr>
             <th>Photo</th>
+            <th>Max persons</th>
             <th>Square</th>
             <th>Rooms</th>
             <th>Price</th>
@@ -48,16 +49,17 @@
         <#list page.content as housing>
             <tr>
                 <td>
-                    <a href="/housingById?housingId=${housing.getId()}">
+                    <a href="/housing-by-id?housingId=${housing.getId()}">
                     <#if housing.getPhotos()?has_content>
                   <img src="${housing.getPhotos()?first.getLink()}" alt="Housing Photo" style="width: 100px;">
                     <#else>
                   <img src="https://caspianpolicy.com/no-image.png" alt="Housing Photo" style="width: 100px;">
                     </#if> </a>
                 </td>
-                <td><a href="/housingById?housingId=${housing.getId()}">${housing.getSquare()}</a></td>
-                <td><a href="/housingById?housingId=${housing.getId()}">${housing.getRooms()}</a></td>
-                <td><a href="/housingById?housingId=${housing.getId()}">${housing.getPrice()} EUR</a></td>
+                <td><a href="/housing-by-id?housingId=${housing.getId()}">${housing.getMaxPersons()}</a></td>
+                <td><a href="/housing-by-id?housingId=${housing.getId()}">${housing.getSquare()}</a></td>
+                <td><a href="/housing-by-id?housingId=${housing.getId()}">${housing.getRooms()}</a></td>
+                <td><a href="/housing-by-id?housingId=${housing.getId()}">${housing.getPrice()} EUR</a></td>
             </tr>
         </#list>
         <@p.pager url page />

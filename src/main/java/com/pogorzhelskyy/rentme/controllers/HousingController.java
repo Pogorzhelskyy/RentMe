@@ -56,7 +56,7 @@ public class HousingController {
     return "find";
     }
 
-    @GetMapping("/housingById")
+    @GetMapping("/housing-by-id")
     public String getHousingById (Model model,
                                   @AuthenticationPrincipal User user,
                                   @RequestParam("housingId") Long housingId){
@@ -69,7 +69,7 @@ public class HousingController {
         model.addAttribute("onehousing", housing);
         model.addAttribute("bookings", actualBookings);
         model.addAttribute("photos", housing.getPhotos());
-    return "housingbyid";
+    return "housing-by-id";
     }
     @PostMapping("/book")
     public String bookHousing(@AuthenticationPrincipal User user,
@@ -81,7 +81,7 @@ public class HousingController {
     Map<String, String> errors = housingService.datesValidation(checkin,checkout);
     if(!errors.isEmpty()){
         model.mergeAttributes(errors);
-        return "housingById";
+        return "housing-by-id";
     }
     if(housingService.isAvailable(housingService.getById(housingId), checkin, checkout)){
         Booking booking = new Booking(housingService.getById(housingId),checkin, checkout,user);
@@ -90,6 +90,6 @@ public class HousingController {
     }else model.addAttribute("errorBooking", "Is not available. Please try another dates.");
 
     model.addAttribute("onehousing", housingService.getById(housingId));
-    return  "redirect:/housingById?housingId="+housingId;
+    return "redirect:/housing-by-id?housingId=%d".formatted(housingId);
     }
 }
